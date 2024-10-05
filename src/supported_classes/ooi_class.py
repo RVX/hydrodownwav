@@ -1,4 +1,4 @@
-from base_class import BaseDownloadClass
+from supported_classes.base_class import BaseDownloadClass
 
 import requests
 import os
@@ -71,7 +71,7 @@ ooi.download_data(min_lat=40, max_lat=50, min_lon=-129, max_lon=-124, min_depth=
             for date in pd.date_range(start='2015-09-01', end=now, freq='D'):
 
                 new_link = os.path.join(link, date.strftime('%Y/%m/%d/')) # add the extensions to download the files from this date
-                deployments.append({'date': date, 'latitude': self.metadata[item_key]['latitude'], 'longitude': self.metadata[item_key]['longitude'], 'depth': self.metadata[item_key]['depth'], 'license': self.license, 'source': self.source, 'link': new_link})
+                deployments.append({'date': date, 'latitude': self.metadata[item_key]['latitude'], 'longitude': self.metadata[item_key]['longitude'], 'depth': self.metadata[item_key]['depth'], 'license': self.license, 'source': self.source, 'link': new_link, 'reference_designator': self.metadata[item_key]['reference_designator'],})
 
         print(f'There are {len(deployments)} deployments available from OOI')
         self.deployments = deployments
@@ -85,6 +85,8 @@ ooi.download_data(min_lat=40, max_lat=50, min_lon=-129, max_lon=-124, min_depth=
         """
         Download data from OOI
         """
+
+        print(self.deployments[:10])
 
         # check for overlap in deployments
         deployments = self.filter_deployments(min_lat, max_lat, min_lon, max_lon, min_depth, max_depth, license, start_time, end_time)
@@ -110,7 +112,7 @@ ooi.download_data(min_lat=40, max_lat=50, min_lon=-129, max_lon=-124, min_depth=
 
         # get the directory name
         directory = url.split('files/')[-1]
-        print(directory)
+        # print(directory)
         # get the base directory
         base_dir = os.path.join(save_dir, directory)
         if not os.path.exists(base_dir):
@@ -138,7 +140,7 @@ ooi.download_data(min_lat=40, max_lat=50, min_lon=-129, max_lon=-124, min_depth=
                     # print('relative_path:',relative_path)
 
                     local_path = os.path.join(base_dir, os.path.basename(absolute_url)).replace(':','')
-                    print('local_path:',local_path)
+                    # print('local_path:',local_path)
 
                     
                     
@@ -158,20 +160,25 @@ ooi.download_data(min_lat=40, max_lat=50, min_lon=-129, max_lon=-124, min_depth=
         deployment.update({'git_version': hash})
         # get current date
         deployment.update({'download_date': pd.Timestamp.now().strftime('%Y-%m-%d')})
+        deployment.update({'date': deployment['date'].strftime('%Y-%m-%d')})
 
         # save to the base directory
         with open(os.path.join(base_dir, 'metadata.json'), 'w') as f:
             json.dump(deployment, f)
 
+
         # bibtex
         # NSF Ocean Observatories Initiative. (date or year published). Instrument and/or data product(s) (reference designator, if applicable) data (from Platform, optional if providing reference designator) (at Array, optional if providing reference designator) from (start date) to (end date). (Repository). (URL). Accessed on (date accessed).
-        bibtex=f"""@misc{{{deployment['reference_designator']}_{deployment['date'].strftime('%Y-%m-%d')},
+        bibtex=f"""@misc{{{deployment['reference_designator']}_{deployment['date']},
     'title': 'NSF Ocean Observatories Initiative',
     'year': {pd.Timestamp.now().year},
-    'howpublished': 'Instrument and/or data product(s) {deployment['reference_designator']} data from {deployment["date"].strftime("%Y-%m-%d")} to {deployment["date"].strftime("%Y-%m-%d")}',
+    'howpublished': 'Instrument and/or data product(s) {deployment['reference_designator']} data from {deployment["date"]} to {(pd.to_datetime(deployment["date"],format="%Y-%m-%d")+pd.Timedelta(days=1) ).strftime("%Y-%m-%d")}',
     'publisher': 'Raw Data Archive',
-    'url': url,
-    'accessed': pd.Timestamp.now().strftime("%Y-%m-%d"),}}"""
+    'url': {url},
+    'accessed': {pd.Timestamp.now().strftime("%Y-%m-%d")},}}"""
+        
+        with open(os.path.join(base_dir, 'bibtex.txt'), 'w') as f:
+            f.write(bibtex)
         
 
         all_mseed_files = glob.glob(os.path.join(base_dir, '*.mseed'))
