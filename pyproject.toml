@@ -19,7 +19,9 @@ dependencies = [
     "python-dotenv",
     "requests",
     "obspy",
-    "gitpython"
+    "gitpython",
+    "onc",
+    "ffmpeg"
 ]
 
 # Entry points to expose command-line interfaces
