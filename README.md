@@ -23,7 +23,6 @@ hydrophone-downloader min_latitude=40 max_latitude=50 min_longitude=-129 max_lon
 ```
 
 ## Coming Soon
-- Querying from Ocean Networks Canada hydrophone stores
 - Log to avoid redundant downloads
 
 ## Contributing
