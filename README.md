@@ -17,13 +17,25 @@ pip install -e .
 
 
 ## Usage
+You may need to get a token from Ocean Networks Canada if you wish to download data from their servers. According to [the documentation](https://wiki.oceannetworks.ca/display/O2A/API+Reference), users should generate the token by "logging in at [http://data.oceannetworks.ca/Profile](http://data.oceannetworks.ca/Profile). Click the "Web Services" tab, then click "Generate Token" "
+
+Then you may set your token by running the command:
+```
+hydrophone-downloader-set-token ONC_token=<your_token_here> # this only needs to be done once
+```
+
+
+
 Open up a terminal or command prompt and type:
 ```
 hydrophone-downloader min_latitude=40 max_latitude=50 min_longitude=-129 max_longitude=-123 min_depth=0 max_depth=1000 start_time="2015-01-01" end_time="2020-12-31" save_dir="/path/to/large/storage"
 ```
 
+## Supported Hydrophone Sources
+- Ocean Networks Canada: [https://www.oceannetworks.ca/](https://www.oceannetworks.ca/)
+- Ocean Observatories Initiative: [https://oceanobservatories.org/](https://oceanobservatories.org/)
+
 ## Coming Soon
-- Querying from Ocean Networks Canada hydrophone stores
 - Log to avoid redundant downloads
 
 ## Contributing
