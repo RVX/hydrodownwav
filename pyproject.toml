@@ -21,7 +21,8 @@ dependencies = [
     "obspy",
     "gitpython",
     "onc",
-    "ffmpeg"
+    "ffmpeg",
+    "bs4"
 ]
 
 # Entry points to expose command-line interfaces

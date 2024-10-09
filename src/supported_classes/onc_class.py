@@ -25,6 +25,17 @@ except:
 
 token = os.getenv('ONC_TOKEN')
 
+def check_token_is_set():
+    """
+    """
+    error_message = """You do not have an Ocean Networks Canada token registered in the repository. To add your token, run
+    hydrophone-downloader-set-token ONC_token=<your_token_here>
+
+    This only needs to be done once. If you do not have an ONC token, you can get one by registering at https://data.oceannetworks.ca/Profile and then going to the 'Web Services' tab and clicking "Generate Token".
+    """
+    assert token is not None, error_message
+    assert token != "" , error_message
+
 
 def str_gen():
     STR_KEY_GEN = 'abcdefghijklmnopqrstuvwxyz1234567890'
@@ -35,6 +46,7 @@ def str_gen():
 class ONCDownloadClass(BaseDownloadClass):
     def __init__(self):
         super().__init__()
+        check_token_is_set()
         self.onc = ONC(token=token, )
         self.token = token
         self.license = 'CC-BY 4.0'
