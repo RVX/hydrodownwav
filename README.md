@@ -31,6 +31,10 @@ Open up a terminal or command prompt and type:
 hydrophone-downloader min_latitude=40 max_latitude=50 min_longitude=-129 max_longitude=-123 min_depth=0 max_depth=1000 start_time="2015-01-01" end_time="2020-12-31" save_dir="/path/to/large/storage"
 ```
 
+## Supported Hydrophone Sources
+- Ocean Networks Canada: [https://www.oceannetworks.ca/](https://www.oceannetworks.ca/)
+- Ocean Observatories Initiative: [https://oceanobservatories.org/](https://oceanobservatories.org/)
+
 ## Coming Soon
 - Log to avoid redundant downloads
 
