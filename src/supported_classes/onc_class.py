@@ -12,7 +12,7 @@ import os
 import shutil
 import json
 from copy import deepcopy
-from datetime import datetime
+from datetime import datetime, timedelta
 
 
 from onc.onc import ONC
@@ -154,7 +154,7 @@ class ONCDownloadClass(BaseDownloadClass):
 
                     extension='flac'
                     # if date <= pd.Timestamp('2021-04-09'):
-                    if date <= datetime.strptime('2021-04-09', '%Y-%m-%d'):
+                    if date <= datetime.strptime('2021-04-09', '%Y-%m-%d').date():
                         extension='wav'
 
                     
@@ -162,7 +162,7 @@ class ONCDownloadClass(BaseDownloadClass):
                         'deviceCode':deployment['deviceCode'],    # AML CTD Metrec X 50348 in Burrard Inlet
                         'dateFrom': date.strftime('%Y-%m-%dT%H:%M:%S.000Z'),
                         # 'dateTo': (date+pd.Timedelta('1D')).strftime('%Y-%m-%d')+'T00:00:00.000Z',
-                        'dateTo': (date+datetime.timedelta(days=1)).strftime('%Y-%m-%d')+'T00:00:00.000Z',
+                        'dateTo': (date+timedelta(days=1)).strftime('%Y-%m-%d')+'T00:00:00.000Z',
                         'extension':extension,
                     }
 
@@ -213,7 +213,7 @@ class ONCDownloadClass(BaseDownloadClass):
                     pass
             else:
                 # optional parameters to loop through and try:
-                filters_orig = {'locationCode': locationCode,'deviceCategoryCode':'HYDROPHONE','dataProductCode':'AD','extension':'flac','dateFrom':date.strftime('%Y-%m-%d'),'dateTo':(date+datetime.timedelta(days=1)).strftime('%Y-%m-%d'),'dpo_audioDownsample':-1} #, 'dpo_audioFormatConversion':0}
+                filters_orig = {'locationCode': locationCode,'deviceCategoryCode':'HYDROPHONE','dataProductCode':'AD','extension':'flac','dateFrom':date.strftime('%Y-%m-%d'),'dateTo':(date+timedelta(days=1)).strftime('%Y-%m-%d'),'dpo_audioDownsample':-1} #, 'dpo_audioFormatConversion':0}
                 # if filters_orig['locationCode']+filters_orig['dateFrom'] in log:
                 #     continue
 

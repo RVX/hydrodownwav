@@ -50,7 +50,7 @@ class BaseDownloadClass:
             print("No deployments found for the specified location.")
             return deployments_out
 
-        deployments_out = [d for d in self.deployments if d['date']>=datetime.strptime(start_time, '%Y-%m-%d') and d['date']<=datetime.strptime(end_time, '%Y-%m-%d')]
+        deployments_out = [d for d in self.deployments if d['date']>=datetime.strptime(start_time, '%Y-%m-%d').date() and d['date']<=datetime.strptime(end_time, '%Y-%m-%d').date()]
 
         if len(deployments_out)==0:
             print("No deployments found for the specified time range.")
