@@ -1,6 +1,7 @@
 from supported_classes.base_class import BaseDownloadClass
 
-import pandas as pd
+# import pandas as pd
+import polars as pl
 import obspy
 import glob
 from urllib.parse import urljoin
@@ -11,6 +12,7 @@ import os
 import shutil
 import json
 from copy import deepcopy
+from datetime import datetime
 
 
 from onc.onc import ONC
@@ -115,15 +117,20 @@ class ONCDownloadClass(BaseDownloadClass):
             # input()
             for deployment in deployments:              
 
-                begin = pd.to_datetime(deployment['begin'], format='%Y-%m-%dT%H:%M:%S.000Z')
+                # begin = pd.to_datetime(deployment['begin'], format='%Y-%m-%dT%H:%M:%S.000Z')
+                begin = datetime.strptime(deployment['begin'], '%Y-%m-%dT%H:%M:%S.000Z')
                 if deployment['end'] is None:
-                    end = pd.Timestamp.now()
+                    # end = pd.Timestamp.now()
+                    end = datetime.now()
                 else:
-                    end = pd.to_datetime(deployment['end'], format='%Y-%m-%dT%H:%M:%S.000Z')
+                    # end = pd.to_datetime(deployment['end'], format='%Y-%m-%dT%H:%M:%S.000Z')
+                    end = pl.strptime(deployment['end'], '%Y-%m-%dT%H:%M:%S.000Z')
 
                 
 
-                for date in pd.date_range(start=begin.date(), end=end.date()+pd.Timedelta('1D'))[::-1]:
+                # for date in pd.date_range(start=begin.date(), end=end.date()+pd.Timedelta('1D'))[::-1]:
+                for date in pl.date_range(start=begin, end=end, interval='1d', eager=True).alias('date').to_frame().to_dict()['date'][::-1]:
+
                     # print('latitude', deployment['lat'])
                     # print('longitude', deployment['lon'])
                     # print('locationCode', locationCode)
@@ -146,13 +153,17 @@ class ONCDownloadClass(BaseDownloadClass):
                     # todo download wav if pre April 9, 2021, then convert to flac using ffmpeg
 
                     extension='flac'
-                    if date <= pd.Timestamp('2021-04-09'):
+                    # if date <= pd.Timestamp('2021-04-09'):
+                    if date <= datetime.strptime('2021-04-09', '%Y-%m-%d'):
                         extension='wav'
+
+                    date_to = 
                     
                     filters = {
                         'deviceCode':deployment['deviceCode'],    # AML CTD Metrec X 50348 in Burrard Inlet
                         'dateFrom': date.strftime('%Y-%m-%dT%H:%M:%S.000Z'),
-                        'dateTo': (date+pd.Timedelta('1D')).strftime('%Y-%m-%d')+'T00:00:00.000Z',
+                        # 'dateTo': (date+pd.Timedelta('1D')).strftime('%Y-%m-%d')+'T00:00:00.000Z',
+                        'dateTo': (date+datetime.timedelta(days=1)).strftime('%Y-%m-%d')+'T00:00:00.000Z',
                         'extension':extension,
                     }
 
@@ -203,7 +214,7 @@ class ONCDownloadClass(BaseDownloadClass):
                     pass
             else:
                 # optional parameters to loop through and try:
-                filters_orig = {'locationCode': locationCode,'deviceCategoryCode':'HYDROPHONE','dataProductCode':'AD','extension':'flac','dateFrom':date.strftime('%Y-%m-%d'),'dateTo':(date+pd.Timedelta('1D')).strftime('%Y-%m-%d'),'dpo_audioDownsample':-1} #, 'dpo_audioFormatConversion':0}
+                filters_orig = {'locationCode': locationCode,'deviceCategoryCode':'HYDROPHONE','dataProductCode':'AD','extension':'flac','dateFrom':date.strftime('%Y-%m-%d'),'dateTo':(date+datetime.timedelta(days=1)).strftime('%Y-%m-%d'),'dpo_audioDownsample':-1} #, 'dpo_audioFormatConversion':0}
                 # if filters_orig['locationCode']+filters_orig['dateFrom'] in log:
                 #     continue
 
