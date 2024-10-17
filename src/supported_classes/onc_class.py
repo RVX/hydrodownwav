@@ -157,7 +157,6 @@ class ONCDownloadClass(BaseDownloadClass):
                     if date <= datetime.strptime('2021-04-09', '%Y-%m-%d'):
                         extension='wav'
 
-                    date_to = 
                     
                     filters = {
                         'deviceCode':deployment['deviceCode'],    # AML CTD Metrec X 50348 in Burrard Inlet
