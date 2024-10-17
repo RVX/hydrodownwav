@@ -18,7 +18,7 @@ from hydrophone_downloader.downloader import download_data
 # token = os.getenv("ONC_TOKEN")
 
 
-@hydra.main(config_path="../configs", config_name="config")
+@hydra.main(config_path="../configs", config_name="config", version_base="1.3")
 def main(cfg: DictConfig):
     
     

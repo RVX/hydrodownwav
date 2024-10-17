@@ -9,7 +9,9 @@ from urllib.parse import urljoin
 from bs4 import BeautifulSoup
 import json
 
-import pandas as pd
+# import pandas as pd
+import polars as pl
+from datetime import datetime
 
 class OOIDownloadClass(BaseDownloadClass):
     def __init__(self, ):
@@ -60,7 +62,9 @@ ooi.download_data(min_lat=40, max_lat=50, min_lon=-129, max_lon=-124, min_depth=
 
 
         deployments = []
-        now = pd.Timestamp.now()
+        # now = pd.Timestamp.now()
+        # now = pl.datetime.now()
+        now = datetime.now().strftime('%Y-%m-%d')
         for link in ['https://rawdata.oceanobservatories.org/files/CE02SHBP/LJ01D/11-HYDBBA106/',
                 'https://rawdata.oceanobservatories.org/files/CE04OSBP/LJ01C/11-HYDBBA105/',
                 'https://rawdata.oceanobservatories.org/files/RS01SBPS/PC01A/08-HYDBBA103/',
@@ -68,7 +72,11 @@ ooi.download_data(min_lat=40, max_lat=50, min_lon=-129, max_lon=-124, min_depth=
                 'https://rawdata.oceanobservatories.org/files/RS03AXBS/LJ03A/09-HYDBBA302/',
                 'https://rawdata.oceanobservatories.org/files/RS03AXPS/PC03A/08-HYDBBA303/']:
             item_key = [d for d in self.metadata.keys() if d in link][0]
-            for date in pd.date_range(start='2015-09-01', end=now, freq='D'):
+            # for date in pd.date_range(start='2015-09-01', end=now, freq='D'):
+            
+            from_date = datetime.strptime('2015-09-01', '%Y-%m-%d')
+            to_date = datetime.strptime(now, '%Y-%m-%d')
+            for date in pl.date_range(start=from_date, end=to_date, interval='1d', eager=True).alias('date').to_frame().to_dict()['date']:
 
                 new_link = os.path.join(link, date.strftime('%Y/%m/%d/')) # add the extensions to download the files from this date
                 deployments.append({'date': date, 'latitude': self.metadata[item_key]['latitude'], 'longitude': self.metadata[item_key]['longitude'], 'depth': self.metadata[item_key]['depth'], 'license': self.license, 'source': self.source, 'link': new_link, 'reference_designator': self.metadata[item_key]['reference_designator'],})
