@@ -124,7 +124,7 @@ class ONCDownloadClass(BaseDownloadClass):
                     end = datetime.now()
                 else:
                     # end = pd.to_datetime(deployment['end'], format='%Y-%m-%dT%H:%M:%S.000Z')
-                    end = pl.strptime(deployment['end'], '%Y-%m-%dT%H:%M:%S.000Z')
+                    end = datetime.strptime(deployment['end'], '%Y-%m-%dT%H:%M:%S.000Z')
 
                 
 
