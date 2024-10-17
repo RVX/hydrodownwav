@@ -22,7 +22,8 @@ dependencies = [
     "gitpython",
     "onc",
     "ffmpeg",
-    "bs4"
+    "bs4",
+    "polars"
 ]
 
 # Entry points to expose command-line interfaces
