@@ -11,7 +11,7 @@ import json
 
 # import pandas as pd
 import polars as pl
-from datetime import datetime
+from datetime import datetime, timedelta
 
 class OOIDownloadClass(BaseDownloadClass):
     def __init__(self, ):
@@ -73,7 +73,7 @@ ooi.download_data(min_lat=40, max_lat=50, min_lon=-129, max_lon=-124, min_depth=
                 'https://rawdata.oceanobservatories.org/files/RS03AXPS/PC03A/08-HYDBBA303/']:
             item_key = [d for d in self.metadata.keys() if d in link][0]
             # for date in pd.date_range(start='2015-09-01', end=now, freq='D'):
-            
+
             from_date = datetime.strptime('2015-09-01', '%Y-%m-%d')
             to_date = datetime.strptime(now, '%Y-%m-%d')
             for date in pl.date_range(start=from_date, end=to_date, interval='1d', eager=True).alias('date').to_frame().to_dict()['date']:
@@ -167,7 +167,7 @@ ooi.download_data(min_lat=40, max_lat=50, min_lon=-129, max_lon=-124, min_depth=
         hash = self.get_git_hash()
         deployment.update({'git_version': hash})
         # get current date
-        deployment.update({'download_date': pd.Timestamp.now().strftime('%Y-%m-%d')})
+        deployment.update({'download_date': datetime.now().strftime('%Y-%m-%d')})
         deployment.update({'date': deployment['date'].strftime('%Y-%m-%d')})
 
         # save to the base directory
@@ -179,11 +179,11 @@ ooi.download_data(min_lat=40, max_lat=50, min_lon=-129, max_lon=-124, min_depth=
         # NSF Ocean Observatories Initiative. (date or year published). Instrument and/or data product(s) (reference designator, if applicable) data (from Platform, optional if providing reference designator) (at Array, optional if providing reference designator) from (start date) to (end date). (Repository). (URL). Accessed on (date accessed).
         bibtex=f"""@misc{{{deployment['reference_designator']}_{deployment['date']},
     'title': 'NSF Ocean Observatories Initiative',
-    'year': {pd.Timestamp.now().year},
-    'howpublished': 'Instrument and/or data product(s) {deployment['reference_designator']} data from {deployment["date"]} to {(pd.to_datetime(deployment["date"],format="%Y-%m-%d")+pd.Timedelta(days=1) ).strftime("%Y-%m-%d")}',
+    'year': {datetime.now().strftime('%Y')},
+    'howpublished': 'Instrument and/or data product(s) {deployment['reference_designator']} data from {deployment["date"]} to {(datetime.strptime(deployment["date"], '%Y-%m-%d')+timedelta(days=1) ).strftime("%Y-%m-%d")}',
     'publisher': 'Raw Data Archive',
     'url': {url},
-    'accessed': {pd.Timestamp.now().strftime("%Y-%m-%d")},}}"""
+    'accessed': {datetime.now().strftime("%Y-%m-%d")},}}"""
         
         with open(os.path.join(base_dir, 'bibtex.txt'), 'w') as f:
             f.write(bibtex)
@@ -214,8 +214,10 @@ def mseed2flac(filenames):
         if not(filename.endswith('mseed')):continue
         print(filename)
         try:
-            st = obspy.read(filename)
-            st.write(filename.replace('mseed','wav'), format='WAV')
+            st = obspy.read(filename, format='mseed')
+            st.merge(fill_value=0)
+            sample_rate = st[0].stats['sampling_rate']
+            st.write(filename.replace('mseed','wav'), format='WAV', framerate=sample_rate)
             # by default say no to overwrite
             os.system('ffmpeg -n -i '+filename.replace(' ', '\ ').replace('mseed','wav')+' -c:a flac '+filename.replace(' ', '\ ').replace('mseed','flac'))
             os.system('rm '+filename.replace(' ', '\ ').replace('mseed','wav'))

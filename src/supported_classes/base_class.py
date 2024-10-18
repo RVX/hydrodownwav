@@ -66,7 +66,8 @@ class BaseDownloadClass:
         return deployments_out
     
     def get_git_hash(self):
-        return git.Repo(search_parent_directories=True).head.object.hexsha
+        this_file_path = os.path.abspath(__file__)
+        return git.Repo(this_file_path, search_parent_directories=True).head.object.hexsha
     
     
     def log(self, message):
