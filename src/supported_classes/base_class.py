@@ -43,14 +43,21 @@ class BaseDownloadClass:
         """
         Filter deployments based on the specified parameters
         """
-    
-        deployments_out = [d for d in self.deployments if d['latitude']>=min_lat and d['latitude']<=max_lat and d['longitude']>=min_lon and d['longitude']<=max_lon and d['depth']>=min_depth and d['depth']<=max_depth ]
+
+
+        # deployments_out = [d for d in self.deployments if ((d['latitude']>=min_lat and d['latitude']<=max_lat) and (d['longitude']>=min_lon and d['longitude']<=max_lon)) and (d['depth']>=min_depth and d['depth']<=max_depth) ]
+        # latitude_range
+        deployments_out = [d for d in self.deployments if d['latitude']>=min_lat and d['latitude']<=max_lat]
+        # longitude_range
+        deployments_out = [d for d in deployments_out if d['longitude']>=min_lon and d['longitude']<=max_lon]
+        # depth_range
+        deployments_out = [d for d in deployments_out if d['depth']>=min_depth and d['depth']<=max_depth]
     
         if len(deployments_out)==0:
             print("No deployments found for the specified location.")
             return deployments_out
 
-        deployments_out = [d for d in self.deployments if d['date']>=datetime.strptime(start_time, '%Y-%m-%d').date() and d['date']<=datetime.strptime(end_time, '%Y-%m-%d').date()]
+        deployments_out = [d for d in deployments_out if d['date']>=datetime.strptime(start_time, '%Y-%m-%d').date() and d['date']<=datetime.strptime(end_time, '%Y-%m-%d').date()]
 
         if len(deployments_out)==0:
             print("No deployments found for the specified time range.")
@@ -62,6 +69,13 @@ class BaseDownloadClass:
         if len(deployments_out)==0:
             print("No deployments found for the specified license.")
             return deployments_out
+        
+        # for d in deployments_out:
+        #     print(d)
+        #     print(d['latitude'], min_lat, max_lat, d['latitude']>=min_lat and d['latitude']<=max_lat)
+        #     print(d['longitude'], min_lon, max_lon, d['longitude']>=min_lon and d['longitude']<=max_lon)
+        #     print(d['depth'], min_depth, max_depth, d['depth']>=min_depth and d['depth']<=max_depth)
+
         
         return deployments_out
     

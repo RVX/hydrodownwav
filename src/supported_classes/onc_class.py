@@ -180,7 +180,9 @@ class ONCDownloadClass(BaseDownloadClass):
         outPath = os.path.join(save_dir, 'tmp_'+str_gen())
         self.onc = ONC(token=self.token, outPath=outPath)
 
+        # print(len(self.deployments), 'deployments available')
         deployments = self.filter_deployments(min_lat, max_lat, min_lon, max_lon, min_depth, max_depth, license, start_time, end_time)
+        # print(len(deployments), 'deployments after filtering')
         for deployment in deployments:
             filters = deployment['filters']
             locationCode = deployment['locationCode']
@@ -241,7 +243,8 @@ class ONCDownloadClass(BaseDownloadClass):
                 # os.system('for s in /media/bnestor/easystore/ocean_networks_canada_hydrophone/20*/*.wav; do ffmpeg -i "${s}" -c:a flac "${s%.*}.flac"; rm "${s}"; done')
             # os.system(f'rsync -aavt --remove-source_files tmp/* {fname}')
             for s in glob.glob(outPath+'/*', recursive=True):
-                shutil.move(s, fname)
+                if not os.path.exists(fname):
+                    shutil.move(s, fname)
 
 
   
