@@ -43,34 +43,6 @@ hydrophone-downloader min_latitude=40 max_latitude=50 min_longitude=-129 max_lon
 ## Contributing
 If you have a hydrophone source, create a custom class that inherits from `src/configs/base_class.py`. If token-access is required, you may need to modify the `src/configs/token_config.yaml` as well.
 
-# LEARNINGS
-===========
-
-hydrophone_downloader/
-├── README.md
-├── .env
-├── requirements.txt
-├── setup.py
-├── src/
-│   ├── hydrophone_downloader/
-│   │   ├── __init__.py
-│   │   ├── cli.py
-│   │   ├── downloader.py
-│   │   ├── configs/
-│   │   │   ├── __init__.py
-│   │   │   ├── base_class.py
-│   │   │   ├── token_config.yaml
-│   │   ├── supported_classes/
-│   │   │   ├── __init__.py
-│   │   │   ├── onc_class.py
-│   │   │   ├── ooi_class.py
-│   │   ├── utils/
-│   │       ├── __init__.py
-│   │       ├── helper_functions.py
-├── tests/
-│   ├── test_downloader.py
-│   ├── test_onc_class.py
-
 
 # TO BE DONE
 
@@ -81,3 +53,48 @@ Create a custom class that inherits from src/configs/base_class.py.
 If the new source requires token-based access, modify the token_config.yaml file.
 
 
+# Giting hard
+=============
+
+If you want to test the experimental branch, please follow these steps:
+
+1. Clone the repository:
+
+Initialize a Git repository
+    git init
+
+Create the Initial Commit
+Add all the current files to the staging area
+    git add .
+
+Commit the current working code as the initial version:
+    git commit -m "Initial working version of hydrophone_downloader"
+
+Create a new branch for experimental changes
+    git branch experimental
+
+Switch to the experimental branch:
+    git checkout experimental
+
+Now, you can make changes in the experimental branch without affecting the main branch.
+
+Switch back to the main branch
+    git checkout main
+
+Create a backup branch to preserve the stable version
+    git branch stable
+
+
+Workflow for Experimental Changes Make changes in the experimental branch.
+Test your changes thoroughly. 
+Commit your changes:
+    git add .
+    git commit -m "Experimental changes: [describe your changes]"   
+
+If the changes are successful, merge them into the main branch:
+    git checkout main
+    git merge experimental
+
+If the changes are stable, update the stable branch:
+    git checkout stable
+    git merge main  
