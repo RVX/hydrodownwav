@@ -19,6 +19,8 @@ pip install -e .
 ## Usage
 You may need to get a token from Ocean Networks Canada if you wish to download data from their servers. According to [the documentation](https://wiki.oceannetworks.ca/display/O2A/API+Reference), users should generate the token by "logging in at [http://data.oceannetworks.ca/Profile](http://data.oceannetworks.ca/Profile). Click the "Web Services" tab, then click "Generate Token" "
 
+e585a8ac-4846-4370-8ae1-ee2d69679e70 --> My token
+
 Then you may set your token by running the command:
 ```
 hydrophone-downloader-set-token ONC_token=<your_token_here> # this only needs to be done once
@@ -40,4 +42,42 @@ hydrophone-downloader min_latitude=40 max_latitude=50 min_longitude=-129 max_lon
 
 ## Contributing
 If you have a hydrophone source, create a custom class that inherits from `src/configs/base_class.py`. If token-access is required, you may need to modify the `src/configs/token_config.yaml` as well.
+
+# LEARNINGS
+===========
+
+hydrophone_downloader/
+├── README.md
+├── .env
+├── requirements.txt
+├── setup.py
+├── src/
+│   ├── hydrophone_downloader/
+│   │   ├── __init__.py
+│   │   ├── cli.py
+│   │   ├── downloader.py
+│   │   ├── configs/
+│   │   │   ├── __init__.py
+│   │   │   ├── base_class.py
+│   │   │   ├── token_config.yaml
+│   │   ├── supported_classes/
+│   │   │   ├── __init__.py
+│   │   │   ├── onc_class.py
+│   │   │   ├── ooi_class.py
+│   │   ├── utils/
+│   │       ├── __init__.py
+│   │       ├── helper_functions.py
+├── tests/
+│   ├── test_downloader.py
+│   ├── test_onc_class.py
+
+
+# TO BE DONE
+
+Customization to add support for additional hydrophone sources:
+---------------------------------------------------------------
+
+Create a custom class that inherits from src/configs/base_class.py.
+If the new source requires token-based access, modify the token_config.yaml file.
+
 

@@ -2,18 +2,14 @@
 cli.py
 """
 
-
 import hydra
 from omegaconf import DictConfig
 from dotenv import load_dotenv, set_key
 import os
 
-
 from hydrophone_downloader.downloader import download_data
 
-
-
-# # Load .env file to get API token
+# Load .env file to get API token
 # load_dotenv()
 # token = os.getenv("ONC_TOKEN")
 
@@ -21,11 +17,8 @@ LOCAL_PATH = os.path.abspath(__file__)
 print(LOCAL_PATH)
 CONFIG_PATH = os.path.join(os.path.dirname(os.path.dirname(LOCAL_PATH)), 'configs')
 
-
 @hydra.main(config_path=CONFIG_PATH, config_name="config", version_base="1.3")
 def main(cfg: DictConfig):
-    
-    
     download_data(
         min_lat=cfg.min_latitude, 
         max_lat=cfg.max_latitude,
@@ -40,7 +33,7 @@ def main(cfg: DictConfig):
     )
 
 # Command to set the API token and store it in .env file
-@hydra.main(config_path=CONFIG_PATH, config_name="token_config")
+@hydra.main(config_path=CONFIG_PATH, config_name="token_config", version_base="1.1")
 def set_token(cfg: DictConfig):
     # get project root directory
     dotenv_file = os.path.join(os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir)), '.env')

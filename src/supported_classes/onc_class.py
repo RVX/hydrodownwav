@@ -18,12 +18,11 @@ from datetime import datetime, timedelta
 from onc.onc import ONC
 
 
-try:
-    from dotenv import load_dotenv
-    load_dotenv()
-except:
-    # assume everything is loaded using export $(cat .env | xargs)
-    pass
+from dotenv import load_dotenv
+import os
+
+dotenv_path = os.path.join(os.path.dirname(__file__), '..', '..', '.env')
+load_dotenv(dotenv_path)
 
 token = os.getenv('ONC_TOKEN')
 
@@ -247,4 +246,3 @@ class ONCDownloadClass(BaseDownloadClass):
                     shutil.move(s, fname)
 
 
-  

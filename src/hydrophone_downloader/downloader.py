@@ -22,6 +22,18 @@ import time
 from supported_classes.ooi_class import OOIDownloadClass
 from supported_classes.onc_class import ONCDownloadClass
 
+from dotenv import load_dotenv
+
+# Load the .env file
+load_dotenv()
+
+# Get the ONC token from the environment
+ONC_token = os.getenv("ONC_TOKEN")
+
+# Ensure the token is set
+assert ONC_token is not None, "ONC_TOKEN is not set. Please add it to the .env file or set it as an environment variable."
+
+print(f"ONC Token: {ONC_token}")
 
 def download_data(
         min_lat=0, 
@@ -35,9 +47,9 @@ def download_data(
         end_time=None,
         save_dir="",
     ):
-    """
-    """
-
+    print("Starting download_data function...")
+    print(f"Parameters: min_lat={min_lat}, max_lat={max_lat}, min_lon={min_lon}, max_lon={max_lon}, min_depth={min_depth}, max_depth={max_depth}, start_time={start_time}, end_time={end_time}, save_dir={save_dir}")
+    
     assert min_lat <= max_lat, "min_lat must be less than or equal to max_lat"
     assert min_lon <= max_lon, "min_lon must be less than or equal to max_lon"
     assert min_depth <= max_depth, "min_depth must be less than or equal to max_depth"
@@ -74,4 +86,4 @@ def download_data(
 
     return
 
- 
+
