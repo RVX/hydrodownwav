@@ -30,6 +30,11 @@ hydrophone-downloader-set-token ONC_token=<your_token_here> # this only needs to
 
 Open up a terminal or command prompt and type:
 ```
+
+VIC:
+hydrophone-downloader min_latitude=40 max_latitude=50 min_longitude=-129 max_longitude=-123 min_depth=0 max_depth=1000 start_time="2025-04-14" end_time="2025-04-15" save_dir="C:/Users/ubema/OneDrive/Documents/0_ART_COMMISIONS/Julian_Charriere/2025_BLACK_SMOKER/BLACK_SMOKER_SCRIPTS/hydrodownwav/hydrophone_downloader/hydrodownwav_sonifications"
+
+
 hydrophone-downloader min_latitude=40 max_latitude=50 min_longitude=-129 max_longitude=-123 min_depth=0 max_depth=1000 start_time="2015-01-01" end_time="2020-12-31" save_dir="/path/to/large/storage"
 ```
 
@@ -51,6 +56,21 @@ Customization to add support for additional hydrophone sources:
 
 Create a custom class that inherits from src/configs/base_class.py.
 If the new source requires token-based access, modify the token_config.yaml file.
+
+
+
+
+#understanding the naming
+ICLISTENHF1251_20150104T235858.270Z likely represents:
+
+A recording made by the ICLISTEN HF1251 hydrophone.
+The recording was captured on January 4, 2015, at 23:58:58.270 UTC.
+Why This Naming Convention is Useful
+Device Identification: The name includes the hydrophone's model and serial number, making it easy to trace the source of the recording.
+Timestamp: The precise timestamp allows users to know exactly when the recording was made, which is critical for scientific analysis and synchronization with other datasets.
+Standardized Format: Using a structured naming convention ensures consistency and makes it easier to manage and analyze large datasets.
+
+
 
 
 # Giting hard
@@ -97,4 +117,26 @@ If the changes are successful, merge them into the main branch:
 
 If the changes are stable, update the stable branch:
     git checkout stable
-    git merge main  
+    git merge main 
+
+
+ # Initialize a repository
+git init
+
+# Check status
+git status
+
+# Stage and commit changes
+git add .
+git commit -m "Message"
+
+# Create and switch branches
+git branch <branch-name>
+git checkout <branch-name>
+
+# Merge branches
+git checkout main
+git merge <branch-name>
+
+# Push changes
+git push origin main
