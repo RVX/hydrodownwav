@@ -57,10 +57,10 @@ C:/path/to/input_directory/
 │   ├── file2.wav
 │   └── ...
 
-Run the script:
+# Run the script:
 python merge_station_wav_files.py
 
-The merged files will be saved in the merged folder inside the input directory:
+# The merged files will be saved in the merged folder inside the input directory:
 C:/path/to/input_directory/merged/
 ├── station1_YYYYMMDDTYYYYMMDD.wav
 ├── station2_YYYYMMDDTYYYYMMDD.wav
@@ -78,3 +78,9 @@ Summary Report:
 Total Folders Processed: 2
 Total Files Merged: 20
 Skipped Files: 0
+
+# Understanding the Naming Convention
+ICLISTENHF1251_20150104T235858.270Z likely represents:
+
+A recording made by the ICLISTEN HF1251 hydrophone.
+The recording was captured on January 4, 2015, at 23:58:58.270 UTC.

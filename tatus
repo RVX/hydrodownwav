@@ -1,0 +1,36 @@
+* [33m15f2aa6[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mexperimental[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/experimental[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mstable[m[33m, [m[1;32mmain[m[33m)[m Update README.md and propagate changes from stable branch
+*   [33m91d0103[m[33m ([m[1;31morigin/stable[m[33m)[m updates requirements.txt
+[32m|[m[33m\[m  
+[32m|[m * [33mdd51e22[m Updated .gitignore to exclude hydrodownwav_sonifications
+* [33m|[m [33mb8d9e44[m merge stations to wav, validation .wav, corrupted files, better and clean terminal
+* [33m|[m [33me212975[m clean&optimize
+* [33m|[m [33mc9a803e[m Set up Git LFS for large files
+* [33m|[m [33m9fbc476[m cleaning the house
+[33m|[m[33m/[m  
+* [33m3f4f891[m Initial commit with working code
+* [33m7c024e0[m fixing package conflicts when installing multiple packages
+* [33m72f2545[m fixed filtering issue
+* [33mad4843e[m fixed mseed class with gaps
+* [33me773e13[m fixed datetime type issues
+* [33m7ab9fb5[m changed dependency for onc class bug 2
+* [33m3fadcc9[m changed dependency for onc class bug
+* [33m8df9956[m changed dependency for onc class
+* [33m8ca85df[m update toml
+* [33m26c4a65[m changed dependency from pandas to polars
+*   [33md5085a9[m Merge remote-tracking branch 'origin/main'
+[34m|[m[35m\[m  
+[34m|[m * [33m2259c97[m Update README.md
+[34m|[m * [33m4ec433d[m Update README.md
+[34m|[m * [33m79167c9[m Update README.md
+* [35m|[m [33m708b3d7[m error handling for tokens
+[35m|[m[35m/[m  
+*   [33m15d6345[m Merge remote-tracking branch 'origin/main'
+[36m|[m[1;31m\[m  
+[36m|[m * [33m107c970[m Update README.md
+* [1;31m|[m [33m612028e[m added ONC download class
+[1;31m|[m[1;31m/[m  
+* [33m71f9507[m restructure for installation
+*   [33m84522e3[m Merge remote-tracking branch 'origin/main'
+[1;32m|[m[1;33m\[m  
+[1;32m|[m * [33ma6ca555[m Initial commit
+* [33m85d5f04[m first commit
